@@ -1,0 +1,104 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+:root {
+  --bg-surface: #FFF9F0;
+  --bg-sand: #F8F2EC;
+  --color-primary: #5B3A29;
+  --color-primary-hover: #4A2E20;
+  --color-text: #1d1b20;
+  --color-text-muted: #5B3A29;
+  --color-card-bg: #f8f2fa;
+  --color-border: rgba(91, 58, 41, 0.15);
+  --color-accent: #c9a74d;
+  --shadow-heritage: 0 4px 12px rgba(91, 58, 41, 0.08);
+}
+
+.accessible-theme {
+  --bg-surface: #0f172a;
+  --bg-sand: #1e293b;
+  --color-primary: #818cf8;
+  --color-primary-hover: #6366f1;
+  --color-text: #f8fafc;
+  --color-text-muted: #cbd5e1;
+  --color-card-bg: #1e293b;
+  --color-border: #475569;
+  --color-accent: #fbbf24;
+  --shadow-heritage: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+body {
+  background-color: var(--bg-surface);
+  color: var(--color-text);
+  font-family: 'Manrope', sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Material Symbols */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.icon-fill {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Micro-Animations & Polish */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(201, 167, 77, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(201, 167, 77, 0.6);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(90deg, rgba(91,58,41,0.06) 25%, rgba(91,58,41,0.14) 37%, rgba(91,58,41,0.06) 63%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}

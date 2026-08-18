@@ -1,0 +1,58 @@
+[
+  {
+    "id": "glass-house",
+    "name": "Glass House",
+    "subtitle": "Historic Victorian Glass Pavilion",
+    "category": "Architectural Landmark",
+    "image": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80",
+    "description": "The Glass House is Lal Bagh's central jewel, commissioned in 1889 during the administration of John Cameron. Modelled after London's Crystal Palace, it hosts the famous bi-annual flower shows during Republic Day and Independence Day.",
+    "historicalFacts": [
+      "Commissioned in 1889, constructed with iron cast from Macfarlane's Foundry in Glasgow, Scotland.",
+      "Stands on the site of Tipu Sultan's original rose garden collection.",
+      "Hosts twice-yearly flower shows featuring over 200 varieties of flora."
+    ],
+    "botanicalNotes": "Surrounded by royal palms, Araucaria cookii trees, and curated orchids."
+  },
+  {
+    "id": "kempegowda-tower",
+    "name": "Kempegowda Tower",
+    "subtitle": "16th-Century Watchtower on Peninsular Gneiss",
+    "category": "Ancient Monument",
+    "image": "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=800&q=80",
+    "description": "Perched atop a 3,000-million-year-old Peninsular Gneiss rock outcrop, this watchtower is one of four erected by Kempegowda I in 1537 to demarcate the future boundary of Bengaluru city.",
+    "historicalFacts": [
+      "Built by Bengaluru founder Kempegowda I in 1537 AD.",
+      "The underlying rock formation is classified as a National Geological Monument by GSI.",
+      "Marks the southern boundary prediction of ancient Bengaluru."
+    ],
+    "botanicalNotes": "Surrounded by drought-resistant xerophytic rock flora and ancient cacti species."
+  },
+  {
+    "id": "old-banyan-tree",
+    "name": "Old Banyan Tree",
+    "subtitle": "Centuries-Old Ficus Benghalensis",
+    "category": "Botanical Wonder",
+    "image": "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=800&q=80",
+    "description": "A majestic centuries-old Banyan tree (Ficus benghalensis) featuring a sprawling canopy of prop roots that create a living pillar structure providing shelter to hundreds of native birds and fruit bats.",
+    "historicalFacts": [
+      "Estimated to be over 200 years old, planted during the Hyder Ali era.",
+      "Prop roots have rooted into independent secondary trunks over decades.",
+      "Serves as a keystone ecological hub within the Lal Bagh botanical sanctuary."
+    ],
+    "botanicalNotes": "Ficus benghalensis with prop roots covering an area exceeding 0.5 acres."
+  },
+  {
+    "id": "the-lake",
+    "name": "The Lake (Lotus Pond)",
+    "subtitle": "Historic Rainwater Reservoir & Avian Sanctuary",
+    "category": "Ecological Waterway",
+    "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+    "description": "Lal Bagh Lake is a historic artificial lake constructed to supply irrigation water to the botanical gardens. It features an island bird sanctuary and lotus cultivation zones.",
+    "historicalFacts": [
+      "Designed during the 18th century to create a self-sustaining irrigation system.",
+      "Features a protected central island hosting spot-billed pelicans and cormorants.",
+      "Serves as an urban wetland cooling micro-climate."
+    ],
+    "botanicalNotes": "Nelumbo nucifera (sacred lotus), Nymphaea water lilies, and shoreline weeping willows."
+  }
+]
