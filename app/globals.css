@@ -15,17 +15,21 @@
   --shadow-heritage: 0 4px 12px rgba(91, 58, 41, 0.08);
 }
 
+/* Matches the locked VIRASETU Accessible Theme brand palette
+   (red-green colorblind-safe: blue / purple / orange / yellow instead of red/green) */
 .accessible-theme {
-  --bg-surface: #0f172a;
-  --bg-sand: #1e293b;
-  --color-primary: #818cf8;
-  --color-primary-hover: #6366f1;
-  --color-text: #f8fafc;
-  --color-text-muted: #cbd5e1;
-  --color-card-bg: #1e293b;
-  --color-border: #475569;
-  --color-accent: #fbbf24;
-  --shadow-heritage: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --bg-surface: #FFFFFF;
+  --bg-sand: #F2F4F7;
+  --color-primary: #0057B8;
+  --color-primary-hover: #00458F;
+  --color-text: #111111;
+  --color-text-muted: #344054;
+  --color-card-bg: #F2F4F7;
+  --color-border: #98A2B3;
+  --color-accent: #E66100;
+  --color-secondary: #6A3D9A;
+  --color-highlight: #F2C14E;
+  --shadow-heritage: 0 4px 12px rgba(17, 17, 17, 0.12);
 }
 
 body {
