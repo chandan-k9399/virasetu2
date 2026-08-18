@@ -9,17 +9,18 @@ export const Header: React.FC = () => {
   const pathname = usePathname();
   const { theme, toggleTheme, setPersona, setSelectedStopId, setHasConsented } = useApp();
 
-  const isHome = pathname === '/';
+  // '/mode-select' is the real first screen of the flow (root '/' redirects here).
+  const isHome = pathname === '/mode-select';
 
   const handleBack = () => {
-    if (pathname === '/mode-select') {
-      router.push('/');
-    } else if (pathname === '/guidance-select') {
+    if (pathname === '/guidance-select') {
       router.push('/mode-select');
-    } else if (pathname === '/stop-select') {
+    } else if (pathname === '/location-select') {
       router.push('/guidance-select');
+    } else if (pathname === '/consent') {
+      router.push('/location-select');
     } else if (pathname === '/guide') {
-      router.push('/guidance-select');
+      router.push('/consent');
     } else {
       router.back();
     }
@@ -48,7 +49,7 @@ export const Header: React.FC = () => {
 
       <h1
         className="font-serif text-2xl font-bold tracking-tight text-[#5B3A29] dark:text-indigo-300 absolute left-1/2 -translate-x-1/2 cursor-pointer flex items-center gap-1.5"
-        onClick={() => router.push('/')}
+        onClick={() => router.push('/mode-select')}
       >
         <span className="material-symbols-outlined text-xl text-[#c9a74d]">account_balance</span>
         VIRASETU
