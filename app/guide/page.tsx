@@ -14,11 +14,12 @@ interface IdentifiedLandmark {
   era: string;
   significance: string;
   historicalFacts: string[];
+  pexelsPhotos?: string[];
 }
 
 export default function GuidePage() {
   const router = useRouter();
-  const { persona, guidanceType, chatHistory, addChatMessage } = useApp();
+  const { persona, guidanceType, selectedLocation, chatHistory, addChatMessage } = useApp();
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -40,12 +41,12 @@ export default function GuidePage() {
   const [userQuestion, setUserQuestion] = useState<string>('');
   const [isAsking, setIsAsking] = useState<boolean>(false);
 
-  // Default Landmark Fallback
+  // Default Fallback Landmark
   const defaultLandmark: IdentifiedLandmark = {
-    name: 'Glass House',
+    name: selectedLocation === 'taj-mahal' ? 'Taj Mahal' : selectedLocation === 'tipu-palace' ? "Tipu Sultan's Summer Palace" : 'Glass House',
     subtitle: 'Built in 1889, this magnificent Victorian conservatory remains one of the largest surviving glasshouses in the world.',
     category: 'Historical Landmark',
-    description: 'Built in 1889, this magnificent Victorian conservatory remains one of the largest surviving glasshouses in the world. It was meticulously designed to house rare and exotic plant specimens brought back by pioneering naturalists and explorers of the era.',
+    description: 'Built in 1889, this magnificent Victorian conservatory remains one of the largest surviving glasshouses in the world. It was meticulously designed to house rare and exotic plant specimens brought back by pioneering naturalists.',
     architect: 'John Cameron & Decimus Burton',
     materials: 'Wrought Iron & Glass',
     era: 'Victorian (1889)',
@@ -55,9 +56,18 @@ export default function GuidePage() {
       'Cast iron framing imported directly from Glasgow, Scotland.',
       'Hosts the famous twice-yearly Lal Bagh flower shows.'
     ],
+    pexelsPhotos: [
+      'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=400&q=80',
+      'https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=400&q=80',
+      'https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=400&q=80',
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&q=80',
+    ],
   };
 
   const activeLandmark = landmark || defaultLandmark;
+  const pexelsGrid = activeLandmark.pexelsPhotos && activeLandmark.pexelsPhotos.length >= 4
+    ? activeLandmark.pexelsPhotos
+    : defaultLandmark.pexelsPhotos!;
 
   // Initialize Camera Stream
   const startCamera = useCallback(async () => {
@@ -91,7 +101,7 @@ export default function GuidePage() {
     };
   }, []);
 
-  // Run Vision Recognition Endpoint
+  // Run Vision Recognition & Pexels Retrieval
   const handleIdentifyCameraFrame = async () => {
     setIsIdentifying(true);
     let capturedBase64: string | undefined = uploadedImage || undefined;
@@ -115,6 +125,7 @@ export default function GuidePage() {
         body: JSON.stringify({
           imageBase64: capturedBase64,
           persona,
+          location: selectedLocation,
         }),
       });
 
@@ -221,7 +232,7 @@ export default function GuidePage() {
           <img src={uploadedImage} alt="Uploaded" className="w-full h-full object-cover" />
         ) : (
           <img
-            src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80"
+            src={pexelsGrid[0]}
             alt={activeLandmark.name}
             className="w-full h-full object-cover"
           />
@@ -303,20 +314,19 @@ export default function GuidePage() {
   );
 
   const renderVisualTextUI = () => (
-    /* Visual View matching Image 4 */
+    /* Visual View matching Image 4 with Dynamic Pexels Photos */
     <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-[#5B3A29]/15 shadow-xl space-y-6 animate-fade-in max-w-xl mx-auto">
       {/* Top Media Row: Related Archival Photo Grid + Camera Live Feed */}
       <div className="grid grid-cols-2 gap-3">
-        {/* Historical Photos Grid */}
+        {/* Dynamic Pexels Photos Grid */}
         <div className="bg-[#F8F2EC] dark:bg-slate-800 p-2.5 rounded-2xl border border-[#5B3A29]/10 space-y-2">
           <span className="text-[10px] uppercase tracking-widest font-bold text-[#5B3A29]/70 block">
-            RELATED
+            PEXELS PHOTOS
           </span>
           <div className="grid grid-cols-2 gap-1.5">
-            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=400&q=80" alt="Ref 1" className="w-full aspect-square object-cover rounded-lg" />
-            <img src="https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=400&q=80" alt="Ref 2" className="w-full aspect-square object-cover rounded-lg" />
-            <img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=400&q=80" alt="Ref 3" className="w-full aspect-square object-cover rounded-lg" />
-            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&q=80" alt="Ref 4" className="w-full aspect-square object-cover rounded-lg" />
+            {pexelsGrid.slice(0, 4).map((imgUrl, i) => (
+              <img key={i} src={imgUrl} alt={`Pexels Ref ${i}`} className="w-full aspect-square object-cover rounded-lg" />
+            ))}
           </div>
         </div>
 
@@ -327,7 +337,7 @@ export default function GuidePage() {
           ) : cameraActive ? (
             <video ref={videoRef} playsInline muted className="w-full h-full object-cover" />
           ) : (
-            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80" alt="Default" className="w-full h-full object-cover opacity-80" />
+            <img src={pexelsGrid[0]} alt="Default" className="w-full h-full object-cover opacity-80" />
           )}
 
           {/* Live Indicator */}
@@ -407,10 +417,10 @@ export default function GuidePage() {
       <div className="flex items-center justify-between bg-white dark:bg-slate-800 p-4 rounded-2xl border border-[#5B3A29]/10 shadow-sm mb-6">
         <div>
           <span className="text-xs uppercase tracking-wider font-semibold text-[#c9a74d] dark:text-amber-400 block">
-            Virasetu Multimodal Vision
+            Multimodal Vision Identification
           </span>
-          <h2 className="font-serif font-bold text-lg text-[#5B3A29] dark:text-indigo-200">
-            {activeLandmark.name}
+          <h2 className="font-serif font-bold text-lg text-[#5B3A29] dark:text-indigo-200 capitalize">
+            {activeLandmark.name} • Location: {selectedLocation}
           </h2>
         </div>
 
@@ -429,7 +439,7 @@ export default function GuidePage() {
             className="px-4 py-2 rounded-full bg-[#5B3A29] text-[#FFF9F0] font-semibold text-xs flex items-center gap-1.5 shadow-md hover:bg-[#4A2E20]"
           >
             <span className="material-symbols-outlined text-base">auto_awesome</span>
-            {isIdentifying ? 'Identifying...' : 'Analyze Live Stream'}
+            {isIdentifying ? 'Recognizing...' : 'Analyze Live Camera'}
           </button>
         </div>
       </div>
@@ -453,7 +463,7 @@ export default function GuidePage() {
 
         {/* Quick Question Suggestion Chips */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar text-xs">
-          {['How old is it?', 'Who built it?', 'What plants grow nearby?', 'Tell a fun story'].map((chip) => (
+          {['How old is this?', 'Who built it?', 'What plants grow nearby?', 'Tell a fun story'].map((chip) => (
             <button
               key={chip}
               onClick={() => handleSendQuestion(chip)}

@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 export type PersonaType = 'kid' | 'student' | 'researcher' | 'tourist';
 export type GuidanceType = 'audio' | 'visual' | 'both';
+export type LocationType = 'lalbagh' | 'taj-mahal' | 'tipu-palace';
 export type ThemeMode = 'heritage' | 'accessible';
 
 export interface ChatMessage {
@@ -18,6 +19,8 @@ interface AppContextType {
   setPersona: (p: PersonaType) => void;
   guidanceType: GuidanceType;
   setGuidanceType: (g: GuidanceType) => void;
+  selectedLocation: LocationType;
+  setSelectedLocation: (loc: LocationType) => void;
   selectedStopId: string;
   setSelectedStopId: (stopId: string) => void;
   theme: ThemeMode;
@@ -34,6 +37,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [persona, setPersonaState] = useState<PersonaType>('student');
   const [guidanceType, setGuidanceTypeState] = useState<GuidanceType>('visual');
+  const [selectedLocation, setSelectedLocationState] = useState<LocationType>('lalbagh');
   const [selectedStopId, setSelectedStopIdState] = useState<string>('glass-house');
   const [theme, setTheme] = useState<ThemeMode>('heritage');
   const [hasConsented, setHasConsented] = useState<boolean>(false);
@@ -49,6 +53,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const savedGuidance = localStorage.getItem('virasetu_guidance') as GuidanceType;
     if (savedGuidance) setGuidanceTypeState(savedGuidance);
 
+    const savedLocation = localStorage.getItem('virasetu_location') as LocationType;
+    if (savedLocation) setSelectedLocationState(savedLocation);
+
     const savedStop = localStorage.getItem('virasetu_stopId');
     if (savedStop) setSelectedStopIdState(savedStop);
   }, []);
@@ -61,6 +68,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const setGuidanceType = (g: GuidanceType) => {
     setGuidanceTypeState(g);
     localStorage.setItem('virasetu_guidance', g);
+  };
+
+  const setSelectedLocation = (loc: LocationType) => {
+    setSelectedLocationState(loc);
+    localStorage.setItem('virasetu_location', loc);
   };
 
   const setSelectedStopId = (stopId: string) => {
@@ -95,6 +107,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setPersona,
         guidanceType,
         setGuidanceType,
+        selectedLocation,
+        setSelectedLocation,
         selectedStopId,
         setSelectedStopId,
         theme,

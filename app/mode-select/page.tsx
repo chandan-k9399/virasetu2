@@ -9,108 +9,94 @@ interface PersonaCard {
   title: string;
   subtitle: string;
   icon: string;
-  bgColor: string;
+  bg: string;
   iconColor: string;
 }
 
 const PERSONAS: PersonaCard[] = [
-  {
-    id: 'kid',
-    title: 'Kid',
-    subtitle: 'Fun stories and interactive games',
-    icon: 'child_care',
-    bgColor: 'bg-indigo-100 dark:bg-indigo-950',
-    iconColor: 'text-indigo-600 dark:text-indigo-300',
-  },
-  {
-    id: 'student',
-    title: 'Student',
-    subtitle: 'Detailed historical facts and timelines',
-    icon: 'school',
-    bgColor: 'bg-amber-100 dark:bg-amber-950',
-    iconColor: 'text-amber-700 dark:text-amber-300',
-  },
-  {
-    id: 'researcher',
-    title: 'Researcher',
-    subtitle: 'In-depth archival data and citations',
-    icon: 'menu_book',
-    bgColor: 'bg-purple-100 dark:bg-purple-950',
-    iconColor: 'text-purple-700 dark:text-purple-300',
-  },
-  {
-    id: 'tourist',
-    title: 'Tourist',
-    subtitle: 'General overview and highlights of the site',
-    icon: 'explore',
-    bgColor: 'bg-emerald-100 dark:bg-emerald-950',
-    iconColor: 'text-emerald-700 dark:text-emerald-300',
-  },
+  { id: 'kid', title: 'Kid', subtitle: 'Fun stories and interactive exploration', icon: 'child_care', bg: '#EEF2FF', iconColor: '#4f46e5' },
+  { id: 'student', title: 'Student', subtitle: 'Historical facts, timelines and data', icon: 'school', bg: '#FEF3C7', iconColor: '#d97706' },
+  { id: 'researcher', title: 'Researcher', subtitle: 'Archival depth, citations, and analysis', icon: 'menu_book', bg: '#F5F3FF', iconColor: '#7c3aed' },
+  { id: 'tourist', title: 'Tourist', subtitle: 'Highlights, overview and quick facts', icon: 'explore', bg: '#ECFDF5', iconColor: '#059669' },
 ];
 
 export default function PersonaSelectPage() {
   const router = useRouter();
   const { persona, setPersona } = useApp();
 
-  const handleSelect = (id: PersonaType) => {
-    setPersona(id);
-  };
-
-  const handleNext = () => {
-    router.push('/guidance-select');
-  };
-
   return (
-    <main className="max-w-md mx-auto px-5 py-8 min-h-[calc(100vh-4rem)] flex flex-col justify-between">
-      <div>
-        <header className="mb-6 text-center">
-          <h2 className="font-serif text-2xl md:text-3xl font-bold text-[#5B3A29] dark:text-indigo-200 mb-2">
-            Who&apos;s exploring today?
-          </h2>
-          <p className="font-sans text-sm text-[#5B3A29]/80 dark:text-slate-300 px-2">
-            Select your profile to customize your heritage journey.
-          </p>
-        </header>
+    <div style={{ minHeight: '100vh', backgroundColor: '#FFF9F0' }}>
+      <main className="max-w-md mx-auto px-5 py-8 flex flex-col justify-between" style={{ minHeight: 'calc(100vh - 4rem)' }}>
+        <div>
+          {/* Header */}
+          <div style={{ marginBottom: '32px', textAlign: 'center' }}>
+            <h2 style={{ fontFamily: 'Newsreader, serif', fontSize: '28px', fontWeight: 700, color: '#3d2b1a', marginBottom: '8px', lineHeight: 1.2 }}>
+              Who&apos;s exploring today?
+            </h2>
+            <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: '13px', color: '#5B3A29', opacity: 0.75 }}>
+              Select your profile to customize your heritage journey.
+            </p>
+          </div>
 
-        {/* Persona List */}
-        <div className="space-y-4">
-          {PERSONAS.map((p) => {
-            const isSelected = persona === p.id;
-            return (
-              <button
-                key={p.id}
-                onClick={() => handleSelect(p.id)}
-                className={`w-full p-5 rounded-2xl text-left transition-all duration-200 flex flex-col items-start border cursor-pointer ${
-                  isSelected
-                    ? 'bg-[#F8F2EC] dark:bg-slate-800 border-[#5B3A29] dark:border-indigo-400 shadow-md ring-2 ring-[#5B3A29]/20'
-                    : 'bg-white/80 dark:bg-slate-900/60 border-[#5B3A29]/10 dark:border-slate-800 hover:border-[#5B3A29]/30 shadow-sm'
-                }`}
-              >
-                <div className={`w-10 h-10 rounded-full ${p.bgColor} ${p.iconColor} flex items-center justify-center mb-3`}>
-                  <span className="material-symbols-outlined text-xl icon-fill">{p.icon}</span>
-                </div>
-                <h3 className="font-serif font-bold text-lg text-[#5B3A29] dark:text-indigo-200 mb-1">
-                  {p.title}
-                </h3>
-                <p className="font-sans text-xs text-[#5B3A29]/70 dark:text-slate-400">
-                  {p.subtitle}
-                </p>
-              </button>
-            );
-          })}
+          {/* Persona Cards */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            {PERSONAS.map((p) => {
+              const isSelected = persona === p.id;
+              return (
+                <button
+                  key={p.id}
+                  onClick={() => setPersona(p.id)}
+                  style={{
+                    width: '100%',
+                    padding: '18px',
+                    borderRadius: '18px',
+                    textAlign: 'left',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '16px',
+                    border: isSelected ? '2px solid #5B3A29' : '2px solid rgba(91,58,41,0.12)',
+                    backgroundColor: isSelected ? '#F8F2EC' : '#ffffff',
+                    boxShadow: isSelected ? '0 4px 16px rgba(91,58,41,0.12)' : '0 1px 4px rgba(0,0,0,0.06)',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    outline: 'none',
+                  }}
+                >
+                  <div style={{ width: '46px', height: '46px', borderRadius: '50%', backgroundColor: p.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <span className="material-symbols-outlined icon-fill" style={{ fontSize: '22px', color: p.iconColor }}>{p.icon}</span>
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <h3 style={{ fontFamily: 'Newsreader, serif', fontWeight: 700, fontSize: '18px', color: '#3d2b1a', marginBottom: '3px' }}>{p.title}</h3>
+                    <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: '12px', color: '#5B3A29', opacity: 0.7 }}>{p.subtitle}</p>
+                  </div>
+                  {isSelected && (
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', backgroundColor: '#5B3A29', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <span className="material-symbols-outlined" style={{ fontSize: '13px', color: '#fff' }}>check</span>
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
 
-      {/* Action Footer */}
-      <div className="mt-8">
-        <button
-          onClick={handleNext}
-          className="w-full h-14 rounded-full bg-[#4f378a] dark:bg-indigo-600 text-white font-medium text-base flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md hover:bg-[#3b286b]"
-        >
-          <span>Next: Choose Guidance</span>
-          <span className="material-symbols-outlined text-xl">arrow_forward</span>
-        </button>
-      </div>
-    </main>
+        {/* Footer Button */}
+        <div style={{ marginTop: '32px' }}>
+          <button
+            onClick={() => router.push('/guidance-select')}
+            style={{
+              width: '100%', height: '56px', backgroundColor: '#4f378a', color: '#ffffff',
+              borderRadius: '100px', fontFamily: 'Manrope, sans-serif', fontSize: '14px',
+              fontWeight: 700, border: 'none', cursor: 'pointer', display: 'flex',
+              alignItems: 'center', justifyContent: 'center', gap: '8px',
+              boxShadow: '0 4px 16px rgba(79,55,138,0.35)',
+            }}
+          >
+            <span>Next: Choose Guidance</span>
+            <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>arrow_forward</span>
+          </button>
+        </div>
+      </main>
+    </div>
   );
 }

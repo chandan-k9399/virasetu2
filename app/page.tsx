@@ -9,115 +9,100 @@ export default function ConsentPage() {
   const { setHasConsented } = useApp();
   const [loading, setLoading] = useState(false);
 
-  const handleAllowAndContinue = async () => {
+  const handleAllow = async () => {
     setLoading(true);
     try {
       if (typeof window !== 'undefined' && navigator.mediaDevices) {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-          audio: true,
-        });
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
         stream.getTracks().forEach((track) => track.stop());
       }
-      setHasConsented(true);
-      router.push('/guide');
-    } catch (err: any) {
-      console.warn('Camera/mic permission notice:', err?.message || err);
-      setHasConsented(true);
-      router.push('/guide');
+    } catch {
+      // Permission denied or unavailable — proceed anyway
     } finally {
+      setHasConsented(true);
       setLoading(false);
+      router.push('/guide');
     }
   };
 
-  const handleSkip = () => {
-    setHasConsented(true);
-    router.push('/guide');
-  };
-
   return (
-    <main className="flex-grow flex flex-col items-center justify-between px-5 py-6 max-w-md mx-auto w-full min-h-[calc(100vh-4rem)]">
-      {/* Eye Graphic Illustration Header */}
-      <div className="w-full max-w-xs aspect-square mb-4 rounded-2xl overflow-hidden shadow-md relative bg-[#F8F2EC] flex items-center justify-center border border-[#5B3A29]/10">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#FFF9F0] via-[#F8F2EC] to-transparent flex flex-col items-center justify-center p-4 text-center">
-          <div className="w-24 h-24 rounded-full bg-[#5B3A29]/10 text-[#5B3A29] flex items-center justify-center mb-2 shadow-inner border border-[#5B3A29]/20">
-            <span className="material-symbols-outlined text-5xl">visibility</span>
-          </div>
-          <span className="font-serif font-semibold text-[#5B3A29] text-sm tracking-wider uppercase">
-            Multimodal Vision &amp; Voice
-          </span>
-        </div>
-      </div>
+    <div style={{ minHeight: '100vh', backgroundColor: '#FFF9F0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <main style={{ maxWidth: '400px', width: '100%', padding: '32px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px' }}>
 
-      {/* Consent Text */}
-      <div className="text-center w-full space-y-3">
-        <h2 className="font-serif text-2xl md:text-3xl font-bold text-[#5B3A29] dark:text-indigo-200">
-          Experience the Past
-        </h2>
-        <p className="font-sans text-xs md:text-sm text-[#5B3A29]/80 dark:text-slate-300 px-2">
-          To bring history to life, VIRASETU needs to see and hear your surroundings.
-        </p>
-
-        {/* Permission Details */}
-        <div className="bg-[#F8F2EC] dark:bg-slate-800 rounded-2xl p-4 text-left shadow-sm space-y-3 border border-[#5B3A29]/10">
-          <div className="flex items-start gap-3">
-            <div className="w-9 h-9 rounded-full bg-[#5B3A29]/10 flex items-center justify-center shrink-0 text-[#5B3A29]">
-              <span className="material-symbols-outlined text-xl">photo_camera</span>
-            </div>
-            <div>
-              <h3 className="font-serif font-bold text-sm text-[#5B3A29] dark:text-indigo-200">
-                Camera Access
-              </h3>
-              <p className="font-sans text-xs text-[#5B3A29]/70 dark:text-slate-400 mt-0.5">
-                To identify artifacts and structures instantly.
-              </p>
-            </div>
-          </div>
-
-          <div className="h-[1px] w-full bg-[#5B3A29]/10" />
-
-          <div className="flex items-start gap-3">
-            <div className="w-9 h-9 rounded-full bg-[#5B3A29]/10 flex items-center justify-center shrink-0 text-[#5B3A29]">
-              <span className="material-symbols-outlined text-xl">mic</span>
-            </div>
-            <div>
-              <h3 className="font-serif font-bold text-sm text-[#5B3A29] dark:text-indigo-200">
-                Microphone Access
-              </h3>
-              <p className="font-sans text-xs text-[#5B3A29]/70 dark:text-slate-400 mt-0.5">
-                To interact with the AI guide via voice.
-              </p>
-            </div>
-          </div>
+        {/* Eye Icon */}
+        <div style={{ width: '120px', height: '120px', borderRadius: '50%', backgroundColor: '#F8F2EC', border: '2px solid rgba(91,58,41,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 32px rgba(91,58,41,0.1)' }}>
+          <span className="material-symbols-outlined icon-fill" style={{ fontSize: '56px', color: '#5B3A29' }}>visibility</span>
         </div>
 
-        {/* Privacy Lock Banner */}
-        <div className="flex items-center justify-center gap-2 px-3 py-2 bg-[#5B3A29]/5 rounded-lg border border-[#5B3A29]/10">
-          <span className="material-symbols-outlined text-[#5B3A29] text-base">lock</span>
-          <p className="font-sans text-xs font-medium text-[#5B3A29]">
-            No footage or audio is stored - your privacy is protected.
+        {/* Title */}
+        <div style={{ textAlign: 'center' }}>
+          <h2 style={{ fontFamily: 'Newsreader, serif', fontSize: '30px', fontWeight: 700, color: '#3d2b1a', marginBottom: '8px' }}>
+            Experience the Past
+          </h2>
+          <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: '13px', color: '#5B3A29', opacity: 0.75, lineHeight: 1.6 }}>
+            To bring history to life, VIRASETU needs access to your camera and microphone.
           </p>
         </div>
-      </div>
 
-      {/* Buttons */}
-      <div className="w-full mt-6 space-y-3">
-        <button
-          onClick={handleAllowAndContinue}
-          disabled={loading}
-          className="w-full h-14 rounded-xl bg-[#5B3A29] text-[#FFF9F0] font-sans text-sm font-semibold flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-md hover:bg-[#4A2E20]"
-        >
-          {loading ? 'Requesting Access...' : 'Allow & Continue'}
-          <span className="material-symbols-outlined text-xl">arrow_forward</span>
-        </button>
+        {/* Permission Cards */}
+        <div style={{ width: '100%', backgroundColor: '#F8F2EC', borderRadius: '18px', padding: '18px', border: '1.5px solid rgba(91,58,41,0.12)' }}>
+          {/* Camera row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '14px' }}>
+            <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(91,58,41,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <span className="material-symbols-outlined" style={{ fontSize: '20px', color: '#5B3A29' }}>photo_camera</span>
+            </div>
+            <div>
+              <h3 style={{ fontFamily: 'Newsreader, serif', fontWeight: 700, fontSize: '15px', color: '#3d2b1a', marginBottom: '2px' }}>Camera Access</h3>
+              <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: '12px', color: '#5B3A29', opacity: 0.7 }}>To identify landmarks and artifacts in real-time.</p>
+            </div>
+          </div>
 
-        <button
-          onClick={handleSkip}
-          className="w-full py-2 text-center text-xs text-[#5B3A29]/60 dark:text-slate-400 hover:text-[#5B3A29]"
-        >
-          Skip for now
-        </button>
-      </div>
-    </main>
+          <div style={{ height: '1px', backgroundColor: 'rgba(91,58,41,0.1)', marginBottom: '14px' }} />
+
+          {/* Mic row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+            <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(91,58,41,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <span className="material-symbols-outlined" style={{ fontSize: '20px', color: '#5B3A29' }}>mic</span>
+            </div>
+            <div>
+              <h3 style={{ fontFamily: 'Newsreader, serif', fontWeight: 700, fontSize: '15px', color: '#3d2b1a', marginBottom: '2px' }}>Microphone Access</h3>
+              <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: '12px', color: '#5B3A29', opacity: 0.7 }}>To interact with the AI guide via voice commands.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Privacy banner */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', backgroundColor: 'rgba(91,58,41,0.05)', borderRadius: '12px', border: '1px solid rgba(91,58,41,0.1)', width: '100%' }}>
+          <span className="material-symbols-outlined" style={{ fontSize: '18px', color: '#5B3A29' }}>lock</span>
+          <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: '12px', fontWeight: 600, color: '#5B3A29' }}>No footage or audio is stored — your privacy is protected.</p>
+        </div>
+
+        {/* Buttons */}
+        <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <button
+            onClick={handleAllow}
+            disabled={loading}
+            style={{
+              width: '100%', height: '54px', backgroundColor: '#5B3A29', color: '#FFF9F0',
+              borderRadius: '14px', fontFamily: 'Manrope, sans-serif', fontSize: '15px',
+              fontWeight: 700, border: 'none', cursor: loading ? 'wait' : 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+              boxShadow: '0 4px 16px rgba(91,58,41,0.3)',
+              opacity: loading ? 0.8 : 1,
+            }}
+          >
+            <span>{loading ? 'Requesting Access...' : 'Allow & Continue'}</span>
+            {!loading && <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>arrow_forward</span>}
+          </button>
+
+          <button
+            onClick={() => { setHasConsented(true); router.push('/guide'); }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Manrope, sans-serif', fontSize: '12px', color: 'rgba(91,58,41,0.55)', padding: '6px' }}
+          >
+            Skip for now
+          </button>
+        </div>
+      </main>
+    </div>
   );
 }
