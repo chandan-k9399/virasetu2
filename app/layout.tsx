@@ -27,7 +27,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased min-h-screen bg-[#FFF9F0] text-[#1d1b20]">
+      <body
+        className="antialiased min-h-screen"
+        style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--color-text)' }}
+      >
         <AppProvider>
           <Header />
           <div className="pt-16">
